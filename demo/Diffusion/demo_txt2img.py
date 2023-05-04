@@ -52,7 +52,7 @@ if __name__ == "__main__":
     # Register TensorRT plugins
     trt.init_libnvinfer_plugins(TRT_LOGGER, '')
 
-    max_batch_size = 16
+    max_batch_size = 4
     # FIXME VAE build fails due to element limit. Limitting batch size is WAR
     if args.build_dynamic_shape or image_height > 512 or image_width > 512:
         max_batch_size = 4
