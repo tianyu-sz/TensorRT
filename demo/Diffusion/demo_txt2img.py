@@ -56,6 +56,7 @@ if __name__ == "__main__":
     # FIXME VAE build fails due to element limit. Limitting batch size is WAR
     if args.build_dynamic_shape or image_height > 512 or image_width > 512:
         max_batch_size = 4
+    max_batch_size = 1
 
     batch_size = len(prompt)
     if batch_size > max_batch_size:
