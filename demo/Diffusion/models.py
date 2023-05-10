@@ -126,7 +126,7 @@ class BaseModel():
         self.min_batch = 1
         self.max_batch = max_batch_size
         self.min_image_shape = 256   # min image resolution: 256x256
-        self.max_image_shape = 1024  # max image resolution: 1024x1024
+        self.max_image_shape = 768  # max image resolution: 1024x1024
         self.min_latent_shape = self.min_image_shape // 8
         self.max_latent_shape = self.max_image_shape // 8
 
@@ -204,9 +204,12 @@ class CLIP(BaseModel):
         self.name = "CLIP"
 
     def get_model(self):
+        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
+
         return CLIPTextModel.from_pretrained(self.path,
             subfolder="text_encoder",
-            use_auth_token=self.hf_token).to(self.device)
+            use_auth_token=self.hf_token,
+            **model_opts).to(self.device)
 
     def get_input_names(self):
         return ['input_ids']
@@ -275,7 +278,7 @@ class UNet(BaseModel):
         self.name = "UNet"
 
     def get_model(self):
-        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16} if self.fp16 else {}
+        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}  # if self.fp16 else {}
         return UNet2DConditionModel.from_pretrained(self.path,
             subfolder="unet",
             use_auth_token=self.hf_token,
@@ -337,9 +340,11 @@ class VAE(BaseModel):
         self.name = "VAE decoder"
 
     def get_model(self):
+        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
+
         vae = AutoencoderKL.from_pretrained(self.path,
             subfolder="vae",
-            use_auth_token=self.hf_token).to(self.device)
+            use_auth_token=self.hf_token, **model_opts).to(self.device)
         vae.forward = vae.decode
         return vae
 
@@ -382,7 +387,9 @@ class TorchVAEEncoder(torch.nn.Module):
     def __init__(self, token, device, path):
         super().__init__()
         self.path = path
-        self.vae_encoder = AutoencoderKL.from_pretrained(self.path, subfolder="vae", use_auth_token=token).to(device)
+        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
+
+        self.vae_encoder = AutoencoderKL.from_pretrained(self.path, subfolder="vae", use_auth_token=token,**model_opts).to(device)
 
     def forward(self, x):
         return self.vae_encoder.encode(x).latent_dist.sample()
@@ -443,6 +450,7 @@ def make_VAEEncoder(version, hf_token, device, verbose, max_batch_size, inpaint=
             max_batch_size=max_batch_size, embedding_dim=get_embedding_dim(version))
 
 def make_tokenizer(version, hf_token):
+    model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
     return CLIPTokenizer.from_pretrained(get_path(version),
             subfolder="tokenizer",
-            use_auth_token=hf_token)
+            use_auth_token=hf_token, **model_opts)
