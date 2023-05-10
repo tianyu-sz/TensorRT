@@ -450,7 +450,6 @@ def make_VAEEncoder(version, hf_token, device, verbose, max_batch_size, inpaint=
             max_batch_size=max_batch_size, embedding_dim=get_embedding_dim(version))
 
 def make_tokenizer(version, hf_token):
-    model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
     return CLIPTokenizer.from_pretrained(get_path(version),
             subfolder="tokenizer",
-            use_auth_token=hf_token, **model_opts)
+            use_auth_token=hf_token)
