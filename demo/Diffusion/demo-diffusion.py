@@ -58,7 +58,7 @@ def parseArgs():
     parser.add_argument('--build-preview-features', action='store_true', help="Build TensorRT engines with preview features.")
 
     # TensorRT inference
-    parser.add_argument('--num-warmup-runs', type=int, default=5, help="Number of warmup runs before benchmarking performance")
+    parser.add_argument('--num-warmup-runs', type=int, default=1, help="Number of warmup runs before benchmarking performance")
     parser.add_argument('--nvtx-profile', action='store_true', help="Enable NVTX markers for performance profiling")
     parser.add_argument('--seed', type=int, default=None, help="Seed for random generator to get consistent results")
 

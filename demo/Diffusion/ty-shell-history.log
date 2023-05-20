@@ -1,0 +1,52 @@
+    1  export TRT_OSSPATH=/workspace
+    2  cd $TRT_OSSPATH/
+    3  mkdir -p build && cd build
+    4  cmake .. -DTRT_OUT_DIR=$PWD/out
+    5  cd plugin
+    6  make -j$(nproc)
+    7  export PLUGIN_LIBS="$TRT_OSSPATH/build/out/libnvinfer_plugin.so"
+    8  cd $TRT_OSSPATH/demo/Diffusion
+    9  pip3 install -r requirements.txt
+   10  pip list
+   11  pip3 list
+   12  python3 -m pip install --upgrade pip
+   13  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --hf-token=$HF_TOKEN -v
+   14  pip install accelerate
+   15  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --hf-token=$HF_TOKEN -v
+   16  echo $PLUGIN_LIBS
+   17  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" 
+   18  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --build-preview-features
+   19  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --enable-preview-features
+   20  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --onnx-minimal-optimization --force-onnx-optimize --force-engine-build
+   21  cd /workspace/
+   22  ls
+   23  git pull
+   24  git submodule update --init --recursive
+   25  cd $TRT_OSSPAHT
+   26  PWD
+   27  export TRT_OSSPATH=/workspace
+   28  cd $TRT_OSSPATH
+   29  mkdir -p build && cd build
+   30  cd ..
+   31  ls
+   32  mkdir -p build && cd build
+   33  cmake .. -DTRT_OUT_DIR=$PWD/out
+   34  cd plugin
+   35  make -j$(nproc)
+   36  export PLUGIN_LIBS="$TRT_OSSPATH/build/out/libnvinfer_plugin.so"
+   37  cd $TRT_OSSPATH/demo/Diffusion
+   38  pip3 install -r requirements.txt
+   39  pip list | grep tensorrt
+   40  mkdir -p onnx engine output
+   41  pip install tensorrt==8.5.3.1
+   42  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --hf-token=$HF_TOKEN -v
+   43  hisotry
+   44  history
+   45  ls
+   46  cd demo/Diffusion/
+   47  ls
+   48  python demo-diffusion.py --help
+   49  history 
+   50  pwd
+   51  history
+   52  history >> ty-shell-history.log
