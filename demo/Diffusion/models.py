@@ -710,7 +710,10 @@ class BaseModel():
 
 class CLIP(BaseModel):
     def get_model(self):
-        return CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14").to(self.device)
+        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
+        return CLIPTextModel.from_pretrained("runwayml/stable-diffusion-v1-5",
+                                             subfolder="text_encoder",
+                                             **model_opts).to(self.device)
 
     def get_input_names(self):
         return ['input_ids']
@@ -912,9 +915,10 @@ class UNet(BaseModel):
 
 class VAE(BaseModel):
     def get_model(self):
+        model_opts = {'revision': 'fp16', 'torch_dtype': torch.float16}
         vae = AutoencoderKL.from_pretrained("runwayml/stable-diffusion-v1-5",
             subfolder="vae",
-            use_auth_token=self.hf_token).to(self.device)
+            use_auth_token=self.hf_token, **model_opts).to(self.device)
         vae.forward = vae.decode
         return vae
 
