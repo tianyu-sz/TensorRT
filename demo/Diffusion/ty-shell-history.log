@@ -18,6 +18,9 @@
    18  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --build-preview-features
    19  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --enable-preview-features
    20  LD_PRELOAD=${PLUGIN_LIBS} python3 demo-diffusion.py "a beautiful photograph of Mt. Fuji during cherry blossom" --onnx-minimal-optimization --force-onnx-optimize --force-engine-build
+
+   # --ty when in the container ,starting here will do
+
    21  cd /workspace/
    22  ls
    23  git pull
